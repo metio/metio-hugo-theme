@@ -1,16 +1,17 @@
-{{ define "title" }}
-{{ .Site.Title }} &ndash; {{ .Title }}
-{{ end }}
 {{ define "main" }}
+{{ .Content }}
+<div id="home-divider"></div>
+{{ range first 1 (where site.RegularPages "Type" "in" site.Params.mainSections) }}
 <h1 class="post-titel">
     <a href="{{ .Permalink }}">
         {{ .Title }}
     </a>
     <a href="https://github.com/metio/seb/commits/master/content/{{ .File }}">
-        <img src="{{ "/images/history.svg" | absURL }}" height="16" width="14" class="icon svgimg">
+        <img src="{{ "/images/history.svg" | absURL }}" alt="View article history" height="16" width="14" class="icon
+        svgimg">
     </a>
     <a href="https://github.com/metio/seb/edit/master/content/{{ .File }}">
-        <img src="{{ "/images/pencil.svg" | absURL }}" height="16" width="14" class="icon svgimg">
+        <img src="{{ "/images/pencil.svg" | absURL }}" alt="Edit article" height="16" width="14" class="icon svgimg">
     </a>
 </h1>
 <div class="subtitle">
@@ -35,4 +36,5 @@
 <div id="post-content">
     {{ .Content }}
 </div>
+{{ end }}
 {{ end }}

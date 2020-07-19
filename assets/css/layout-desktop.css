@@ -1,0 +1,17 @@
+#site {
+    grid-template-rows: 100px auto 100px;
+    grid-template-columns: 250px 1fr;
+    grid-template-areas: "header header" "navigation content" "navigation footer";
+}
+
+#header {
+    visibility: visible;
+}
+
+#content img {
+    max-width: calc(90vw - 250px);
+}
+
+#content pre {
+    max-width: calc(90vw - 250px);
+}
