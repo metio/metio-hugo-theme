@@ -25,6 +25,10 @@
                     {{ end }}
                 </ul>
             </li>
+        {{ else }}
+            <li>
+                <a href="{{ .URL }}" class="{{ if (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}active{{ end }}">{{ .Pre }}{{ .Name }}</a>
+            </li>
         {{ end }}
     {{ end }}
 </ul>
