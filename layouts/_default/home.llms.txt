@@ -1,0 +1,29 @@
+{{- /* Generates /llms-full.txt: the substantive docs concatenated as markdown for
+       LLMs. Sections are emitted in mainSections order; each section page is
+       followed by its child pages by weight. Bodies use .RawContent (markdown
+       without front matter). Enable by adding "LLMS" to outputs.home. */ -}}
+# {{ site.Title }} — full documentation
+
+> The complete {{ site.Title }} documentation ({{ site.BaseURL }}) concatenated for
+> LLMs. For a concise link index see {{ "llms.txt" | absURL }}.
+{{ with site.Home.RawContent }}
+{{ . }}
+{{- end }}
+{{- range $section := site.Params.mainSections }}
+{{- with site.GetPage $section }}
+{{- template "metio-llms-page" . }}
+{{- range .RegularPages.ByWeight }}
+{{- template "metio-llms-page" . }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- define "metio-llms-page" }}
+
+---
+
+# {{ .Title }}
+
+Source: {{ .Permalink }}
+
+{{ .RawContent }}
+{{- end }}

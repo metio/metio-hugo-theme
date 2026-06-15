@@ -33,3 +33,16 @@
   isHTML = false
   noUgly = true
   permalinkable = false
+
+# Generates /llms-full.txt — the documentation concatenated for LLMs (see
+# layouts/_default/home.llms.txt). Add "LLMS" to a site's outputs.home to enable;
+# pair it with a curated static/llms.txt link index.
+[outputFormats.LLMS]
+  name = "LLMS"
+  mediaType = "text/plain"
+  baseName = "llms-full"
+  isPlainText = true
+  isHTML = false
+  noUgly = true
+  permalinkable = false
+  notAlternative = true
