@@ -44,6 +44,21 @@
     margin-bottom: 0;
 }
 
+.page-index {
+    list-style: none;
+    padding-left: 0;
+}
+.page-index-item {
+    margin: 1rem 0;
+}
+.page-index-link {
+    font-weight: 600;
+}
+.page-index-desc {
+    margin: 0.2rem 0 0;
+    opacity: 0.8;
+}
+
 th {
     border: 2px solid;
     padding: 0.5rem;
