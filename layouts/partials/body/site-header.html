@@ -1,9 +1,9 @@
 {{ block "header" . }}
 <header id="header">
     <h1 id="projectname">
-        <a href="{{ " id="rootlink"/" | absLangURL }}">{{ .Site.Title }}</a>
-        <a href="{{ " sitemap/" | absLangURL }}" title="show me all pages" id="sitemaplink">
-        <img class="svgimg" src="{{ "/images/sitemap.svg" | absURL }}" alt="sitemap" width="30" height="30">
+        <a id="rootlink" href="{{ "/" | absLangURL }}">{{ .Site.Title }}</a>
+        <a href="{{ "sitemap/" | absLangURL }}" title="show me all pages" id="sitemaplink">
+            <img class="svgimg" src="{{ "/images/sitemap.svg" | absURL }}" alt="sitemap" width="30" height="30">
         </a>
     </h1>
     {{ partial "i18n/translations.html" . }}
@@ -26,6 +26,11 @@
         {{ with .Site.Params.github }}
             <a href="https://github.com/{{ . }}" id="github" title="want some code?">
                 <img class="svgimg" src="{{ "/images/github.svg" | absURL }}" alt="github" width="32" height="32">
+            </a>
+        {{ end }}
+        {{ with .Site.Params.calendar }}
+            <a href="{{ . }}" id="calendar" title="release calendar">
+                <img class="svgimg" src="{{ "/images/calendar.svg" | absURL }}" alt="calendar" width="32" height="32">
             </a>
         {{ end }}
         <a href="{{ "/atom.xml" | absURL }}" id="newsfeed" title="get notified about updates">

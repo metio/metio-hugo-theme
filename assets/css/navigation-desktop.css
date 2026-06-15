@@ -6,7 +6,7 @@
     padding-right: 15px
 }
 
-.mobileonly, .mobile-and-tablet {
+.mobileonly,.mobile-and-tablet {
     display: none;
     visibility: hidden;
 }

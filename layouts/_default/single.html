@@ -1,38 +1,32 @@
 {{ define "title" }}
-{{ .Site.Title }} &ndash; {{ .Title }}
+    {{ .Site.Title }} &ndash; {{ .Title }}
 {{ end }}
 {{ define "main" }}
-<h1 class="post-titel">
-    <a href="{{ .Permalink }}">
-        {{ .Title }}
-    </a>
-    <a href="https://github.com/metio/seb/commits/master/content/{{ .File }}">
-        <img src="{{ "/images/history.svg" | absURL }}" height="16" width="14" class="icon svgimg">
-    </a>
-    <a href="https://github.com/metio/seb/edit/master/content/{{ .File }}">
-        <img src="{{ "/images/pencil.svg" | absURL }}" height="16" width="14" class="icon svgimg">
-    </a>
-</h1>
-<div class="subtitle">
-    Published:
-    <time 2006-01-02datetime="{{ .Date.Format "
-    " }}">{{ .Date.Format "January 2, 2006" }}</time>
-    {{ if ne .Date .Lastmod }}
-    , Updated:
-    <time 2006-01-02datetime="{{ .Date.Format "
-    " }}">{{ .Lastmod.Format "January 2, 2006" }}</time>
+    <h1 class="post-titel">
+        <a href="{{ .Permalink }}">
+            {{ .Title }}
+        </a>
+        {{ if and .File .Site.Params.github .Site.Params.editContentPath }}
+            {{ $branch := .Site.Params.editBranch | default "main" }}
+            <a href="https://github.com/{{ .Site.Params.github }}/commits/{{ $branch }}/{{ .Site.Params.editContentPath }}/{{ .File.Path }}" title="see history">
+                <img src="{{ "/images/history.svg" | absURL }}" height="16" width="14" class="icon svgimg" alt="see history">
+            </a>
+            <a href="https://github.com/{{ .Site.Params.github }}/edit/{{ $branch }}/{{ .Site.Params.editContentPath }}/{{ .File.Path }}" title="edit this page">
+                <img src="{{ "/images/pencil.svg" | absURL }}" height="16" width="14" class="icon svgimg" alt="edit this page">
+            </a>
+        {{ end }}
+    </h1>
+    {{ with .Params.tags }}
+        <div class="subtitle">
+            Talks about:
+            {{ $links := slice }}
+            {{ range sort . }}
+                {{ $links = $links | append (partial "body/post-tag-link" . | chomp) }}
+            {{ end }}
+            {{ delimit $links ", " ", and " | safeHTML }}
+        </div>
     {{ end }}
-</div>
-{{ with .Params.tags }}
-<div class="subtitle">
-    Talks about:
-    {{ $sort := sort . }}
-    {{ $links := apply $sort "partial" "body/post-tag-link" "." }}
-    {{ $clean := apply $links "chomp" "." }}
-    {{ delimit $clean ", " ", and " }}
-</div>
-{{ end }}
-<div id="post-content">
-    {{ .Content }}
-</div>
+    <div id="post-content">
+        {{ .Content }}
+    </div>
 {{ end }}

@@ -23,21 +23,17 @@ code {
 .post-titel > a {
     text-decoration: none;
 }
-
 .post-titel > h1 {
     color: black;
     margin-bottom: 0;
 }
-
-.post-titel, .post-tag, .post-titel > a {
+.post-titel,.post-tag,.post-titel > a {
     color: black;
     text-decoration: none;
 }
-
 .post-tag {
     color: gray;
 }
-
 .icon {
     margin: 0;
 }

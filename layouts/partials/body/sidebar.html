@@ -2,20 +2,29 @@
     {{ $currentPage := . }}
     <h3 class="mobileonly menutitle">Links</h3>
     {{ if ne $currentPage.RelPermalink "/" }}
-    <li class="mobileonly"><a href="{{ "/" | absLangURL }}">Home</a></li>
+        <li class="mobileonly"><a href="{{ "/" | absLangURL }}">Home</a></li>
     {{ end }}
-    <li class="mobileonly"><a href="https://matrix.to/#/{{ .Site.Params.matrix }}">Let's talk on Matrix</a></li>
-    <li class="mobileonly"><a href="mailto:{{ .Site.Params.email }}">Send me an email</a></li>
-    <li class="mobileonly"><a href="{{ .Site.Params.mastodon }}">Get in touch on Mastodon</a></li>
-    <li class="mobileonly"><a href="https://github.com/{{ .Site.Params.github }}">See some code at GitHub</a></li>
-    <li class="mobileonly"><a href="{{ "/sitemap/" | absURL }}">See all pages at the sitemap</a></li>
+    {{ with .Site.Params.matrix }}<li class="mobileonly"><a href="https://matrix.to/#/{{ . }}">Let's talk on Matrix</a></li>{{ end }}
+    {{ with .Site.Params.email }}<li class="mobileonly"><a href="mailto:{{ . }}">Send me an email</a></li>{{ end }}
+    {{ with .Site.Params.mastodon }}<li class="mobileonly"><a href="{{ . }}" rel="me">Get in touch on Mastodon</a></li>{{ end }}
+    {{ with .Site.Params.github }}<li class="mobileonly"><a href="https://github.com/{{ . }}">See some code at GitHub</a></li>{{ end }}
+    {{ with .Site.Params.calendar }}<li class="mobileonly"><a href="{{ . }}">Check the release calendar</a></li>{{ end }}
     <li class="mobileonly"><a href="{{ "/atom.xml" | absURL }}">Subscribe to the Atom feed</a></li>
-    <hr class="mobileonly menudivider"/>
+    <li class="mobileonly"><a href="{{ "/sitemap/" | absURL }}">See all pages at the sitemap</a></li>
+    <hr class="mobileonly menudivider" />
     <h3 class="mobile-and-tablet menutitle">Navigation</h3>
-    {{ range first 15 (sort .Site.Menus.topic "Page.Date" "desc") }}
-    <li>
-        <a class="{{ if $currentPage.IsMenuCurrent " href="{{ .URL }}" topic" . }}active{{ end }}">{{ .Pre }}{{ .Name
-        }}</a>
-    </li>
+    {{ range .Site.Menus.main }}
+        {{ if .HasChildren }}
+            <li>
+                <a href="{{ .URL }}" class="{{ if (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}active{{ end }}">{{ .Pre }}{{ .Name }}</a>
+                <ul>
+                    {{ range .Children }}
+                    <li class="{{ if $currentPage.IsMenuCurrent "main" . }}active{{ end }}">
+                    <a href="{{ .URL }}">{{ .Name }}</a>
+                    </li>
+                    {{ end }}
+                </ul>
+            </li>
+        {{ end }}
     {{ end }}
 </ul>
