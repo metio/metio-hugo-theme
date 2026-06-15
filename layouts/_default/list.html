@@ -13,7 +13,7 @@
             {{ range . }}
                 <li class="page-index-item">
                     <a class="page-index-link" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
-                    {{ with or .Description (.Summary | plainify | strings.TrimSpace | truncate 200) }}
+                    {{ with .Description }}
                         <p class="page-index-desc">{{ . }}</p>
                     {{ end }}
                 </li>
