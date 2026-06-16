@@ -6,13 +6,26 @@
        authoring. */ -}}
 {{- $blocks := slice -}}
 {{- if .IsHome -}}
-  {{- $blocks = $blocks | append (dict
+  {{- $site := dict
     "@context" "https://schema.org"
     "@type" "WebSite"
     "name" .Site.Title
     "url" .Site.BaseURL
     "description" .Site.Params.description
-  ) -}}
+  -}}
+  {{- with .Site.Params.relatedProjects -}}
+    {{- $mentions := slice -}}
+    {{- range . -}}
+      {{- $mentions = $mentions | append (dict
+        "@type" "SoftwareApplication"
+        "name" .name
+        "url" .url
+        "applicationCategory" "DeveloperApplication"
+      ) -}}
+    {{- end -}}
+    {{- $site = merge $site (dict "mentions" $mentions) -}}
+  {{- end -}}
+  {{- $blocks = $blocks | append $site -}}
   {{- with .Site.Params.github -}}
     {{- $blocks = $blocks | append (dict
       "@context" "https://schema.org"
