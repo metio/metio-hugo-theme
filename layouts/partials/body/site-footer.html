@@ -15,5 +15,12 @@
       Germany
     </span>
     </p>
+    {{ with .Site.Home.OutputFormats.Get "LLMS" }}
+    <p id="footer-llms">
+        For LLMs:
+        <a href="{{ "/llms.txt" | absURL }}">llms.txt</a> &middot;
+        <a href="{{ "/llms-full.txt" | absURL }}">llms-full.txt</a>
+    </p>
+    {{ end }}
 </footer>
 {{ end }}

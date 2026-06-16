@@ -46,3 +46,16 @@
   noUgly = true
   permalinkable = false
   notAlternative = true
+
+# Generates /llms.txt — a concise, auto-derived link index (see
+# layouts/_default/home.llmsindex.txt). Add "LLMSINDEX" to a site's outputs.home
+# to enable; it derives from each page's front matter, so no static index is needed.
+[outputFormats.LLMSINDEX]
+  name = "LLMSINDEX"
+  mediaType = "text/plain"
+  baseName = "llms"
+  isPlainText = true
+  isHTML = false
+  noUgly = true
+  permalinkable = false
+  notAlternative = true
