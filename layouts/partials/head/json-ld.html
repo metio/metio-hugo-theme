@@ -55,5 +55,5 @@
   ) -}}
 {{- end -}}
 {{- range $blocks }}
-<script type="application/ld+json">{{ . | jsonify }}</script>
+<script type="application/ld+json">{{ . | jsonify | safeJS }}</script>
 {{- end -}}
