@@ -1,0 +1,18 @@
+{{- /* Generates /llms.txt: a concise, auto-derived index of the docs — the site
+       title, its description, and one bullet per page (linked title + the page's
+       own description) in mainSections order. Derived entirely from each page's
+       front matter, so it never drifts from the content. Enable by adding
+       "LLMSINDEX" to outputs.home; it pairs with the "LLMS" full-text output. */ -}}
+# {{ site.Title }}
+
+> {{ site.Params.description }}
+
+Project home: {{ site.BaseURL }} — full text for LLMs: {{ "llms-full.txt" | absURL }}
+{{ range $section := site.Params.mainSections }}
+{{- with site.GetPage $section }}
+## {{ .Title }}
+{{ range .RegularPages.ByWeight }}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Description }}: {{ . }}{{ end }}
+{{- end }}
+{{ end }}
+{{- end }}
