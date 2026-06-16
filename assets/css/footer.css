@@ -11,3 +11,10 @@
     text-decoration: none;
     color: black
 }
+
+/* The LLMs index/full-text links are real navigation, not the CC0 badge, so they
+   use the normal link colour (visible on both light and dark backgrounds). */
+#footer-llms a {
+    text-decoration: underline;
+    color: #268bd2
+}
