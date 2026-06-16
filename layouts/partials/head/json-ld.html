@@ -1,0 +1,59 @@
+{{- /* JSON-LD structured data, built as Go maps and emitted with jsonify so the
+       output is always valid JSON. The home page describes the site and the
+       project (WebSite + SoftwareSourceCode); every other page is a TechArticle
+       with a BreadcrumbList. Everything is derived from front matter, site
+       params (github, description, author), and GitInfo dates — no per-page
+       authoring. */ -}}
+{{- $blocks := slice -}}
+{{- if .IsHome -}}
+  {{- $blocks = $blocks | append (dict
+    "@context" "https://schema.org"
+    "@type" "WebSite"
+    "name" .Site.Title
+    "url" .Site.BaseURL
+    "description" .Site.Params.description
+  ) -}}
+  {{- with .Site.Params.github -}}
+    {{- $blocks = $blocks | append (dict
+      "@context" "https://schema.org"
+      "@type" "SoftwareSourceCode"
+      "name" $.Site.Title
+      "description" $.Site.Params.description
+      "url" $.Site.BaseURL
+      "codeRepository" (printf "https://github.com/%s" .)
+      "license" "https://spdx.org/licenses/0BSD.html"
+    ) -}}
+  {{- end -}}
+{{- else if .IsPage -}}
+  {{- $article := dict
+    "@context" "https://schema.org"
+    "@type" "TechArticle"
+    "headline" .Title
+    "url" .Permalink
+    "mainEntityOfPage" .Permalink
+    "isPartOf" (dict "@type" "WebSite" "name" .Site.Title "url" .Site.BaseURL)
+  -}}
+  {{- with .Description }}{{ $article = merge $article (dict "description" .) }}{{ end -}}
+  {{- with .Site.Params.author }}{{ $article = merge $article (dict "author" (dict "@type" "Organization" "name" .)) }}{{ end -}}
+  {{- if not .Date.IsZero }}{{ $article = merge $article (dict "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")) }}{{ end -}}
+  {{- if not .Lastmod.IsZero }}{{ $article = merge $article (dict "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")) }}{{ end -}}
+  {{- $blocks = $blocks | append $article -}}
+  {{- $items := slice (dict "@type" "ListItem" "position" 1 "name" "Home" "item" .Site.BaseURL) -}}
+  {{- $pos := 1 -}}
+  {{- range .Ancestors.Reverse -}}
+    {{- if not .IsHome -}}
+      {{- $pos = add $pos 1 -}}
+      {{- $items = $items | append (dict "@type" "ListItem" "position" $pos "name" .Title "item" .Permalink) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $pos = add $pos 1 -}}
+  {{- $items = $items | append (dict "@type" "ListItem" "position" $pos "name" .Title "item" .Permalink) -}}
+  {{- $blocks = $blocks | append (dict
+    "@context" "https://schema.org"
+    "@type" "BreadcrumbList"
+    "itemListElement" $items
+  ) -}}
+{{- end -}}
+{{- range $blocks }}
+<script type="application/ld+json">{{ . | jsonify }}</script>
+{{- end -}}
