@@ -1,5 +1,10 @@
 {{ block "header" . }}
 <header id="header">
+    {{ with .Site.Params.logo }}
+        <a id="logolink" href="{{ "/" | absLangURL }}" title="{{ $.Site.Title }}">
+            <img id="logo" src="{{ . | absURL }}" alt="{{ $.Site.Title }} logo" width="40" height="40">
+        </a>
+    {{ end }}
     <h1 id="projectname">
         <a id="rootlink" href="{{ "/" | absLangURL }}">{{ .Site.Title }}</a>
         <a href="{{ "sitemap/" | absLangURL }}" title="show me all pages" id="sitemaplink">

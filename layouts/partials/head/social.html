@@ -1,0 +1,44 @@
+{{- /* Social + link-preview metadata.
+
+       One Open Graph block drives the preview cards on Mastodon, Bluesky,
+       LinkedIn, Facebook and Instagram — all of them read og:* and none define a
+       competing tag of their own, so there is nothing platform-specific to add
+       for those four. X/Twitter is the exception: it reads the twitter:* card.
+       Mastodon additionally renders an author byline on the card when
+       fediverse:creator names an account.
+
+       Everything derives from front matter and site params, so no page authors
+       this by hand. The share image falls back socialImage -> logo, and the
+       og:image dimensions are emitted only for the configured socialImage (a
+       known 1200x630) so consumers can lay the card out before fetching it. */ -}}
+{{- $title := cond .IsHome .Site.Title (printf "%s · %s" .Title .Site.Title) -}}
+{{- $desc := .Description | default .Site.Params.description -}}
+{{- $img := "" -}}{{- $sized := false -}}
+{{- with .Params.image }}{{ $img = . | absURL }}{{ end -}}
+{{- if not $img }}{{ with .Site.Params.socialImage }}{{ $img = . | absURL }}{{ $sized = true }}{{ end }}{{ end -}}
+{{- if not $img }}{{ with .Site.Params.logo }}{{ $img = . | absURL }}{{ end }}{{ end -}}
+<meta property="og:site_name" content="{{ .Site.Title }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:locale" content="{{ .Site.Language.Lang }}">
+{{- with $img }}
+<meta property="og:image" content="{{ . }}">
+{{- if $sized }}
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+{{- end }}
+{{- end }}
+<meta name="twitter:card" content="{{ cond (and (ne $img "") $sized) "summary_large_image" "summary" }}">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $desc }}">
+{{- with $img }}
+<meta name="twitter:image" content="{{ . }}">
+{{- end }}
+{{- with .Site.Params.twitter }}
+<meta name="twitter:site" content="@{{ . }}">
+{{- end }}
+{{- with .Site.Params.fediverseCreator }}
+<meta name="fediverse:creator" content="{{ . }}">
+{{- end }}

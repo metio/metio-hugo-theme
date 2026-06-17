@@ -1,0 +1,15 @@
+{{- /* Link render hook. Rewrites in-repo Markdown links — `foo.md`,
+       `../bar.md#frag` — to the rendered target page's URL, so documents
+       authored with GitHub-relative `.md` links (e.g. the mounted runbooks,
+       which cross-reference each other as siblings) also resolve on the built
+       site. A link whose target resolves to no page, an external link (one with
+       a host), and any non-`.md` link all pass through unchanged. */ -}}
+{{- $dest := .Destination -}}
+{{- $u := urls.Parse $dest -}}
+{{- if and (not $u.Host) (strings.HasSuffix $u.Path ".md") -}}
+  {{- with .Page.GetPage (strings.TrimSuffix ".md" $u.Path) -}}
+    {{- $dest = .RelPermalink -}}
+    {{- with $u.Fragment }}{{ $dest = printf "%s#%s" $dest . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . | safeHTML }}"{{ end }}>{{ .Text | safeHTML }}</a>

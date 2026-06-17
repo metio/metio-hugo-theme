@@ -1,0 +1,16 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.0/schema.json",
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "files": {
+    "includes": [
+      "assets/css/**/*.css",
+      "!assets/css/normalize.css",
+      "!assets/css/syntax.css"
+    ]
+  }
+}
