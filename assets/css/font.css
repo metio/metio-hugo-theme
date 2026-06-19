@@ -16,8 +16,20 @@ blockquote > p::before, blockquote > p::after {
     content: '”';
 }
 
+/* Inline code: monospace with a subtle tint, normal weight. Bold weight is
+   reserved for <strong>, so a page full of single-word code spans (flags, field
+   and metric names) no longer reads as bold. Code blocks carry their own
+   syntax-highlight background, so the inline treatment is reset for pre > code. */
 code {
-    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
 }
 
 .post-titel > a {

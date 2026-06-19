@@ -3,16 +3,22 @@ body {
     color: white;
 }
 
-#header a {
-    color: white;
-}
-
 .svgimg {
     filter: invert(1);
 }
 
 a,a>span {
     color: #268bd2;
+}
+
+/* Lighter tint so inline code stays legible on the dark background; blocks keep
+   their own syntax-highlight background. */
+code {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
+pre code {
+    background-color: transparent;
 }
 
 li::marker {
@@ -23,4 +29,10 @@ li::marker {
 }
 .post-tag {
     color: gray;
+}
+
+/* Header links carry higher specificity than the generic link rule above; placed
+   last so selector source order stays in ascending specificity. */
+#header a {
+    color: white;
 }
