@@ -19,10 +19,12 @@ blockquote > p::before, blockquote > p::after {
 /* Inline code: monospace with a subtle tint, normal weight. Bold weight is
    reserved for <strong>, so a page full of single-word code spans (flags, field
    and metric names) no longer reads as bold. Code blocks carry their own
-   syntax-highlight background, so the inline treatment is reset for pre > code. */
+   syntax-highlight background, so the inline treatment is reset for pre > code.
+   Padding is horizontal only: vertical padding would stretch the tint above and
+   below the text, so inline code on adjacent wrapped lines would overlap. */
 code {
     background-color: rgba(0, 0, 0, 0.06);
-    padding: 0.1em 0.3em;
+    padding: 0 0.3em;
     border-radius: 3px;
 }
 
