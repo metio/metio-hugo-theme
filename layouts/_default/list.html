@@ -8,16 +8,22 @@
         </a>
     </h1>
     {{ .Content }}
-    {{ with .Pages }}
-        <ul class="page-index">
-            {{ range . }}
-                <li class="page-index-item">
-                    <a class="page-index-link" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
-                    {{ with .Description }}
-                        <p class="page-index-desc">{{ . }}</p>
-                    {{ end }}
-                </li>
-            {{ end }}
-        </ul>
+    {{/* Auto-list child pages only when the section's _index has no body of its
+         own. A hand-written _index (intro + a curated list) then fully controls
+         the page; otherwise the section still gets an automatic index. This
+         prevents the list rendering twice. */}}
+    {{ if not .Content }}
+        {{ with .Pages }}
+            <ul class="page-index">
+                {{ range . }}
+                    <li class="page-index-item">
+                        <a class="page-index-link" href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+                        {{ with .Description }}
+                            <p class="page-index-desc">{{ . }}</p>
+                        {{ end }}
+                    </li>
+                {{ end }}
+            </ul>
+        {{ end }}
     {{ end }}
 {{ end }}
