@@ -36,7 +36,7 @@ and reference it with `theme = "metio"`.
 
 ## Mirrors
 
-* https://github.com/metio/metio-hugo-theme
+* <https://github.com/metio/metio-hugo-theme>
 
 ## License
 
